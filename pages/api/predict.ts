@@ -24,7 +24,7 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const backendUrl = process.env.BACKEND_URL || 'http://localhost:8000';
+  const backendUrl = process.env.BACKEND_ORIGIN || 'http://localhost:8000';
 
   try {
     // Parse the multipart form data

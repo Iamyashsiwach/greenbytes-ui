@@ -1,6 +1,6 @@
 # GreenBytes UI - Next.js Frontend
 
-Modern chat-style interface for multimodal sugarcane AI analysis built with Next.js, TypeScript, and shadcn/ui.
+Multimodal chat interface for sugarcane AI analysis with proxy-based backend integration.
 
 ## 🚀 Quick Start
 
@@ -11,26 +11,27 @@ Modern chat-style interface for multimodal sugarcane AI analysis built with Next
 npm install
 ```
 
-2. **Configure environment**:
+2. **Configure environment** (create `.env.local`):
 ```bash
-cp .env.example .env.local
-# Edit BACKEND_URL to point to your API
+NEXT_PUBLIC_API_BASE_URL=/api
+BACKEND_ORIGIN=http://localhost:8000
 ```
 
 3. **Run development server**:
 ```bash
 npm run dev
 # Frontend starts on http://localhost:3000
+# Calls /api routes which proxy to BACKEND_ORIGIN
 ```
 
 ## 🎨 Features
 
-- **Modern Chat Interface** - ChatGPT-style conversation UI
-- **Multimodal Input** - Image upload + questionnaire forms
-- **Real-time Analysis** - Live prediction results with visual feedback
-- **Responsive Design** - Desktop and mobile optimized
-- **shadcn/ui Components** - Beautiful, accessible UI components
-- **Server-side Proxies** - CORS-free backend communication
+- **Multimodal Analysis** - Supports answers-only, image-only, and combined modes
+- **Proxy-based Architecture** - CORS-free backend communication via Next.js API routes
+- **Real-time Results** - Live analysis with YOLO, TabNet, and fusion results
+- **Decision Transparency** - Shows trace of how decisions were made
+- **Reference Images** - Visual comparison for detected conditions
+- **Responsive Design** - Mobile-friendly interface
 
 ## 🔧 Configuration
 
@@ -38,38 +39,43 @@ npm run dev
 
 **Development** (`.env.local`):
 ```bash
-BACKEND_URL=http://localhost:8000
+NEXT_PUBLIC_API_BASE_URL=/api
+BACKEND_ORIGIN=http://localhost:8000
 ```
 
-**Production** (Vercel):
-- `BACKEND_URL`: `http://<vm-ip>:8000` (Server-side only)
+**Production** (`.env.production`):
+```bash
+NEXT_PUBLIC_API_BASE_URL=/api
+BACKEND_ORIGIN=http://20.193.136.83:8000
+```
 
-## 🌐 Connect to Backend
+## 🌐 API Integration
 
-### Server-side Proxy Routes
+### Proxy Routes Architecture
 
-The frontend uses Next.js API routes to proxy requests and avoid CORS issues:
+Client calls → Next.js API routes → FastAPI backend
 
-- **Health Check**: `/api/health` → `{BACKEND_URL}/health`
-- **Predictions**: `/api/predict` → `{BACKEND_URL}/predict`  
-- **Status Monitor**: `/status` → Test backend connectivity
+- **Client**: `fetch('/api/predict')` 
+- **Proxy**: `/api/predict` → `${BACKEND_ORIGIN}/predict`
+- **Backend**: FastAPI handles multimodal inference
 
-### Why Proxy Routes?
-- ✅ **No CORS issues** between frontend/backend domains
-- ✅ **No mixed-content warnings** (HTTPS → HTTP)
-- ✅ **Secure backend URL** (server-side only)
-- ✅ **Seamless user experience**
+### Supported Analysis Modes
+
+1. **Answers Only**: JSON request with questionnaire responses
+2. **Image Only**: Multipart request with uploaded image
+3. **Combined**: Multipart request with both image and answers
 
 ## 📱 Pages & Routes
 
 ### Main Application
-- `/` - Main chat interface
-- `/simple` - Simplified test interface
+- `/multimodal` - **Main multimodal analysis interface**
+- `/` - Legacy chat interface
+- `/simple` - Simple test interface
 - `/status` - Backend connection monitor
 
-### API Routes (Server-side)
-- `/api/health` - Health check proxy
-- `/api/predict` - Prediction proxy
+### API Routes (Server-side Proxies)
+- `/api/health` - Health check proxy to backend
+- `/api/predict` - Prediction proxy to backend
 
 ## 🚀 Deployment
 
@@ -90,33 +96,31 @@ The frontend uses Next.js API routes to proxy requests and avoid CORS issues:
 
 ### Local Testing with Remote Backend
 ```bash
-# Test with deployed backend
-BACKEND_URL=http://<vm-ip>:8000 npm run dev
+# Edit .env.local
+BACKEND_ORIGIN=http://20.193.136.83:8000
 
-# Test backend connectivity
+# Start frontend
 npm run dev
-# Then visit: http://localhost:3000/status
+
+# Test: http://localhost:3000/multimodal
 ```
 
 ## 🧪 Testing
 
-### Manual Testing
+### Testing Steps
+
 1. **Start frontend**: `npm run dev`
-2. **Visit status page**: http://localhost:3000/status
-3. **Test main app**: http://localhost:3000
-   - Select mode (Disease/Pest)
-   - Upload image
-   - Answer questionnaire
-   - Run analysis
+2. **Visit multimodal page**: http://localhost:3000/multimodal
+3. **Test analysis modes**:
+   - **Answers Only**: Uncheck "Include Image", answer questions, run analysis
+   - **Image Only**: Upload image, run analysis
+   - **Combined**: Upload image AND answer questions, run analysis
 
-### Backend Integration Testing
-```bash
-# Check if proxy routes work
-curl http://localhost:3000/api/health
-
-# Test with actual image upload
-# Use the main UI at http://localhost:3000
-```
+### Expected Results
+- ✅ Three analysis panels: YOLO, TabNet, Final Verdict
+- ✅ Decision trace showing how result was determined
+- ✅ Reference image for comparison
+- ✅ API health indicator shows "Online"
 
 ## 🏗️ Architecture
 

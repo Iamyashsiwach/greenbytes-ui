@@ -113,26 +113,26 @@ const Home: NextPage = () => {
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-green-50 via-white to-emerald-50">
         {/* Modern Header */}
         <header className="bg-white/80 backdrop-blur-sm border-b border-green-200 sticky top-0 z-50">
-          <div className="container mx-auto px-6 py-4">
+          <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                    <Leaf className="w-6 h-6 text-primary-foreground" />
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary rounded-xl flex items-center justify-center">
+                    <Leaf className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
                   </div>
                   <div>
-                    <h1 className="text-xl font-bold text-green-800">GreenBytes AI</h1>
-                    <p className="text-xs text-green-600">Sugarcane Health Analysis</p>
+                    <h1 className="text-lg sm:text-xl font-bold text-green-800">GreenBytes AI</h1>
+                    <p className="text-xs text-green-600 hidden sm:block">Sugarcane Health Analysis</p>
                   </div>
                 </div>
-                <Badge variant="secondary" className="hidden sm:flex items-center gap-1 text-xs">
+                <Badge variant="secondary" className="hidden md:flex items-center gap-1 text-xs">
                   <Activity className="w-3 h-3" />
                   Multimodal Detection
                 </Badge>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="text-xs">
+              <div className="flex items-center gap-1 sm:gap-2">
+                <Badge variant="outline" className="text-xs hidden sm:inline-flex">
                   YOLO + TabNet
                 </Badge>
                 <Badge variant={isLoading ? "destructive" : "default"} className="text-xs">

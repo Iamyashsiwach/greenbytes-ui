@@ -14,6 +14,9 @@ html, body {
   background-color: #ffffff;
   color: #0f172a;
   height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #__next {
@@ -49,9 +52,9 @@ html, body {
   @apply animate-pulse;
 }
 
-/* Scrollbar styling */
+/* Mobile-first responsive scrollbar styling */
 .custom-scrollbar::-webkit-scrollbar {
-  @apply w-2;
+  @apply w-1 sm:w-2;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -60,4 +63,27 @@ html, body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+/* Mobile touch improvements */
+@media (max-width: 640px) {
+  .custom-scrollbar {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Improve touch targets on mobile */
+  input[type="radio"], input[type="checkbox"] {
+    min-width: 1rem;
+    min-height: 1rem;
+  }
+  
+  /* Better button touch targets */
+  button {
+    min-height: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
 }

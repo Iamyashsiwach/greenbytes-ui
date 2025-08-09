@@ -96,21 +96,21 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
 
   return (
     <div className="bg-background border-t border-border shadow-lg">
-      <div className="container mx-auto p-6 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="container mx-auto p-4 sm:p-6 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           
           {/* Mode Selection */}
           <Card className="lg:col-span-1">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Zap className="w-5 h-5 text-primary" />
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 Analysis Mode
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <Label 
-                  className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-4 sm:p-3 rounded-lg border-2 cursor-pointer transition-all ${
                     mode === 'disease' 
                       ? 'border-primary bg-primary/5' 
                       : 'border-border hover:border-primary/50'
@@ -134,7 +134,7 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                 </Label>
                 
                 <Label 
-                  className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-4 sm:p-3 rounded-lg border-2 cursor-pointer transition-all ${
                     mode === 'pest' 
                       ? 'border-primary bg-primary/5' 
                       : 'border-border hover:border-primary/50'
@@ -162,7 +162,7 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
               <div className="space-y-3">
                 <Label className="text-sm font-medium">Sugarcane Image</Label>
                 <div 
-                  className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                  className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center transition-colors ${
                     imageFile 
                       ? 'border-primary bg-primary/5' 
                       : 'border-muted-foreground/25 hover:border-primary/50'
@@ -173,9 +173,9 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                       <img 
                         src={imagePreview} 
                         alt="Preview" 
-                        className="w-full max-h-32 object-cover rounded-lg"
+                        className="w-full max-h-24 sm:max-h-32 object-cover rounded-lg"
                       />
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 justify-center">
                         <Button
                           variant="outline"
                           size="sm"
@@ -235,10 +235,10 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
 
           {/* Questions */}
           <Card className="lg:col-span-2">
-            <CardHeader className="pb-4">
+            <CardHeader className="pb-3 sm:pb-4">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-primary" />
+                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   Questionnaire
                 </CardTitle>
                 <Badge variant="secondary" className="text-xs">
@@ -247,10 +247,10 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
               </div>
             </CardHeader>
             <CardContent>
-              <div className="answers-grid max-h-96 overflow-y-auto custom-scrollbar pr-2">
+              <div className="grid grid-cols-1 gap-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar pr-2">
                 {currentQuestions.map((question, index) => (
                   <Card key={question.key} className="question-card">
-                    <CardContent className="p-4">
+                    <CardContent className="p-3 sm:p-4">
                       <Label className="text-sm font-medium leading-tight mb-3 block">
                         <span className="text-primary font-bold">Q{index + 1}.</span> {question.text}
                       </Label>
@@ -259,7 +259,7 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                         value={answers[question.key]?.toString() || "-1"}
                         onValueChange={(value) => handleAnswerChange(question.key, parseInt(value) as AnswerValue)}
                         disabled={disabled}
-                        className="flex gap-4"
+                        className="flex flex-wrap gap-3 sm:gap-4"
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="-1" id={`${question.key}-unknown`} />
@@ -285,12 +285,12 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                 ))}
               </div>
               
-              <div className="mt-6 pt-4 border-t">
+              <div className="mt-4 sm:mt-6 pt-4 border-t">
                 <Button
                   onClick={handleSubmit}
                   disabled={disabled || !imageFile}
                   size="lg"
-                  className="w-full"
+                  className="w-full h-12 text-base sm:text-sm"
                 >
                   {disabled ? (
                     <>

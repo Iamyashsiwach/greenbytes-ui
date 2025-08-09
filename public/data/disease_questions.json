@@ -1,0 +1,42 @@
+[
+  {
+    "key": "Q1",
+    "text": "Are the leaves showing yellowing or discoloration?"
+  },
+  {
+    "key": "Q2",
+    "text": "Is there wilting of the central shoot?"
+  },
+  {
+    "key": "Q3",
+    "text": "Can you see any bore holes on the stem?"
+  },
+  {
+    "key": "Q4",
+    "text": "Is the dead heart easily pulled out?"
+  },
+  {
+    "key": "Q5",
+    "text": "Are there any foul odors from the affected area?"
+  },
+  {
+    "key": "Q6",
+    "text": "Did symptoms appear within 30 days of planting?"
+  },
+  {
+    "key": "Q7",
+    "text": "Are multiple shoots affected in the same clump?"
+  },
+  {
+    "key": "Q8",
+    "text": "Is there presence of frass or excreta?"
+  },
+  {
+    "key": "Q9",
+    "text": "Are the lower leaves still green while the top is dead?"
+  },
+  {
+    "key": "Q10",
+    "text": "Has there been recent heavy rainfall or irrigation?"
+  }
+]

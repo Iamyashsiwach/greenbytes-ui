@@ -1,0 +1,42 @@
+[
+  {
+    "key": "Q1",
+    "text": "Are there small holes visible on young shoots?"
+  },
+  {
+    "key": "Q2",
+    "text": "Can you see larvae or caterpillars on the plant?"
+  },
+  {
+    "key": "Q3",
+    "text": "Is there presence of chewed leaf edges?"
+  },
+  {
+    "key": "Q4",
+    "text": "Are the growing points damaged or dead?"
+  },
+  {
+    "key": "Q5",
+    "text": "Do you see parallel rows of holes on leaves?"
+  },
+  {
+    "key": "Q6",
+    "text": "Is the crop less than 3 months old?"
+  },
+  {
+    "key": "Q7",
+    "text": "Are there exit holes at the base of shoots?"
+  },
+  {
+    "key": "Q8",
+    "text": "Is there stunted growth in affected plants?"
+  },
+  {
+    "key": "Q9",
+    "text": "Can you observe any moth activity during evening?"
+  },
+  {
+    "key": "Q10",
+    "text": "Are neighboring fields also showing similar symptoms?"
+  }
+]

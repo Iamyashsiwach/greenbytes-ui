@@ -1,0 +1,5 @@
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="2" width="36" height="36" rx="8" stroke="#10B981" stroke-width="2" fill="none"/>
+  <path d="M12 20 L18 26 L28 16" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="45" y="26" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#10B981">GreenBytes</text>
+</svg>

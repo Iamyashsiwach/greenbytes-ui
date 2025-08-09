@@ -7,6 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import FormData from 'form-data';
 import fs from 'fs';
+import axios from 'axios';
 
 // Disable default body parser to handle multipart data
 export const config = {
@@ -54,14 +55,14 @@ export default async function handler(
       contentType: imageFile.mimetype || 'image/jpeg',
     });
 
-    // Forward request to backend
-    const response = await fetch(`${backendUrl}/predict`, {
-      method: 'POST',
-      body: formData,
-      headers: formData.getHeaders(),
+    // Forward request to backend using axios (better FormData support)
+    const response = await axios.post(`${backendUrl}/predict`, formData, {
+      headers: {
+        ...formData.getHeaders(),
+      },
+      timeout: 30000,
+      validateStatus: () => true, // Don't throw on HTTP error status
     });
-
-    const data = await response.json();
 
     // Clean up temporary file
     try {
@@ -70,11 +71,8 @@ export default async function handler(
       console.warn('Failed to cleanup temp file:', cleanupError);
     }
 
-    if (!response.ok) {
-      return res.status(response.status).json(data);
-    }
-
-    return res.status(200).json(data);
+    // Return response with proper status code
+    return res.status(response.status).json(response.data);
   } catch (error) {
     console.error('Prediction proxy failed:', error);
     return res.status(500).json({

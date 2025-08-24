@@ -1,42 +1,62 @@
 [
   {
     "key": "Q1",
-    "text": "Are there small holes visible on young shoots?"
+    "text": "Is the larva body dirty white?"
   },
   {
-    "key": "Q2",
-    "text": "Can you see larvae or caterpillars on the plant?"
+    "key": "Q2", 
+    "text": "Does the larva have about five dark violet stripes along its body?"
   },
   {
     "key": "Q3",
-    "text": "Is there presence of chewed leaf edges?"
+    "text": "Is the larva's head dark brown?"
   },
   {
     "key": "Q4",
-    "text": "Are the growing points damaged or dead?"
+    "text": "Do you see a hole near the root or lower stem?"
   },
   {
     "key": "Q5",
-    "text": "Do you see parallel rows of holes on leaves?"
+    "text": "Is there frass (sawdust-like waste) near the holes?"
   },
   {
     "key": "Q6",
-    "text": "Is the crop less than 3 months old?"
+    "text": "Is the stem hollow inside?"
   },
   {
     "key": "Q7",
-    "text": "Are there exit holes at the base of shoots?"
+    "text": "Are the central leaves drying up?"
   },
   {
     "key": "Q8",
-    "text": "Is there stunted growth in affected plants?"
+    "text": "Is the plant younger than 120 days?"
   },
   {
     "key": "Q9",
-    "text": "Can you observe any moth activity during evening?"
+    "text": "Can the plant be easily pulled out of the soil?"
   },
   {
     "key": "Q10",
-    "text": "Are neighboring fields also showing similar symptoms?"
+    "text": "Is the top shoot dead but the lower leaves are green?"
+  },
+  {
+    "key": "Q11",
+    "text": "Are the damaged plants scattered across the field?"
+  },
+  {
+    "key": "Q12",
+    "text": "Do you see small cuts on the leaves?"
+  },
+  {
+    "key": "Q13",
+    "text": "Are nearby plants showing the same damage?"
+  },
+  {
+    "key": "Q14",
+    "text": "Is the growth of the plant slowed compared to healthy plants?"
+  },
+  {
+    "key": "Q15",
+    "text": "Do you find the larva inside the stem when you split it?"
   }
 ]

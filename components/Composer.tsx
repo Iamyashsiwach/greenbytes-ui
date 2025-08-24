@@ -242,7 +242,7 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                   Questionnaire
                 </CardTitle>
                 <Badge variant="secondary" className="text-xs">
-                  {answeredCount}/10 answered
+                  {answeredCount}/{currentQuestions.length} answered
                 </Badge>
               </div>
             </CardHeader>

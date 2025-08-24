@@ -1,42 +1,62 @@
 [
   {
     "key": "Q1",
-    "text": "Are the leaves showing yellowing or discoloration?"
+    "text": "Is the stem yellow or brown in color?"
   },
   {
     "key": "Q2",
-    "text": "Is there wilting of the central shoot?"
+    "text": "Is the stem dried?"
   },
   {
     "key": "Q3",
-    "text": "Can you see any bore holes on the stem?"
+    "text": "Does the plant smell rotten or decayed?"
   },
   {
     "key": "Q4",
-    "text": "Is the dead heart easily pulled out?"
+    "text": "Does the plant look weak or wilted?"
   },
   {
     "key": "Q5",
-    "text": "Are there any foul odors from the affected area?"
+    "text": "Can the plant be easily pulled out of the ground?"
   },
   {
     "key": "Q6",
-    "text": "Did symptoms appear within 30 days of planting?"
+    "text": "Is the inside of the stem hollow?"
   },
   {
     "key": "Q7",
-    "text": "Are multiple shoots affected in the same clump?"
+    "text": "Do you see a hole near the root or lower stem?"
   },
   {
     "key": "Q8",
-    "text": "Is there presence of frass or excreta?"
+    "text": "Is the plant younger than 120 days?"
   },
   {
     "key": "Q9",
-    "text": "Are the lower leaves still green while the top is dead?"
+    "text": "Has the plant stopped growing taller?"
   },
   {
     "key": "Q10",
-    "text": "Has there been recent heavy rainfall or irrigation?"
+    "text": "Are the leaves yellowing?"
+  },
+  {
+    "key": "Q11",
+    "text": "Are the leaves drying from the tip downwards?"
+  },
+  {
+    "key": "Q12",
+    "text": "Is there a single dead central shoot among green leaves?"
+  },
+  {
+    "key": "Q13",
+    "text": "Do you notice any powdery waste (frass) near the base?"
+  },
+  {
+    "key": "Q14",
+    "text": "Has the plant fallen over easily without strong wind?"
+  },
+  {
+    "key": "Q15",
+    "text": "Do the new shoots fail to grow properly?"
   }
 ]

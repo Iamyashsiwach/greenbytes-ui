@@ -136,11 +136,11 @@ const SimplePage: NextPage = () => {
               <h3 className="text-base sm:text-lg font-semibold mb-4 flex items-center gap-2">
                 <span>❓</span>
                 Questionnaire
-                <span className="ml-auto bg-gray-100 px-2 py-1 rounded text-xs">0/10 answered</span>
+                <span className="ml-auto bg-gray-100 px-2 py-1 rounded text-xs">0/15 answered</span>
               </h3>
               
               <div className="grid grid-cols-1 gap-3 sm:gap-4 max-h-80 sm:max-h-96 overflow-y-auto">
-                {[1,2,3,4,5,6,7,8,9,10].map((i) => (
+                {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map((i) => (
                   <div key={i} className="border border-gray-200 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow">
                     <p className="text-sm font-medium mb-3">
                       <span className="text-green-600 font-bold">Q{i}.</span> Sample question about {mode === 'disease' ? 'disease symptoms' : 'pest indicators'}?

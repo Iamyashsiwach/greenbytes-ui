@@ -383,7 +383,7 @@ const MultimodalPage: NextPage = () => {
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-sm">Questionnaire</CardTitle>
                       <Badge variant="secondary" className="text-xs">
-                        {answeredCount}/10 answered
+                        {answeredCount}/{currentQuestions.length} answered
                       </Badge>
                     </div>
                   </CardHeader>

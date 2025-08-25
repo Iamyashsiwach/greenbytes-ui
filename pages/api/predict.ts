@@ -34,10 +34,11 @@ export default async function handler(
     if (contentType.includes('application/json')) {
       // Handle answers-only mode (JSON request)
       // Parse JSON body manually since bodyParser is disabled
-      const bodyBuffer = await new Promise<Buffer>((resolve) => {
+      const bodyBuffer = await new Promise<Buffer>((resolve, reject) => {
         const chunks: Buffer[] = [];
         req.on('data', (chunk) => chunks.push(chunk));
         req.on('end', () => resolve(Buffer.concat(chunks)));
+        req.on('error', reject);
       });
       
       const body = JSON.parse(bodyBuffer.toString());
@@ -148,9 +149,22 @@ export default async function handler(
     }
   } catch (error) {
     console.error('Prediction proxy failed:', error);
+    
+    // More detailed error logging for debugging
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        contentType: req.headers['content-type'],
+        method: req.method,
+        url: req.url
+      });
+    }
+    
     return res.status(500).json({
       error: 'Prediction request failed',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString()
     });
   }
 }

@@ -48,7 +48,8 @@ export interface PredictResponse {
  * Get API base URL from environment
  */
 function getApiBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://20.193.136.83:8000';
+  // Use environment variable or fall back to proxy for HTTPS compatibility
+  return process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 }
 
 /**
@@ -56,9 +57,7 @@ function getApiBaseUrl(): string {
  */
 export async function checkHealth(): Promise<{ ok: boolean }> {
   const baseUrl = getApiBaseUrl();
-  const response = await fetch(`${baseUrl}/health`, {
-    mode: 'cors',
-  });
+  const response = await fetch(`${baseUrl}/health`);
   
   if (!response.ok) {
     throw new Error(`Health check failed: ${response.status}`);
@@ -85,7 +84,6 @@ export async function predict({ mode, answers, file }: PredictRequest): Promise<
     const response = await fetch(`${baseUrl}/predict`, {
       method: 'POST',
       body: formData,
-      mode: 'cors',
     });
     
     if (!response.ok) {
@@ -112,7 +110,6 @@ export async function predict({ mode, answers, file }: PredictRequest): Promise<
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ mode, answers }),
-      mode: 'cors',
     });
     
     if (!response.ok) {

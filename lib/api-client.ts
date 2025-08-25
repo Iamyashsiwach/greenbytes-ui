@@ -48,7 +48,7 @@ export interface PredictResponse {
  * Get API base URL from environment
  */
 function getApiBaseUrl(): string {
-  return process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
+  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://20.193.136.83:8000';
 }
 
 /**
@@ -56,7 +56,9 @@ function getApiBaseUrl(): string {
  */
 export async function checkHealth(): Promise<{ ok: boolean }> {
   const baseUrl = getApiBaseUrl();
-  const response = await fetch(`${baseUrl}/health`);
+  const response = await fetch(`${baseUrl}/health`, {
+    mode: 'cors',
+  });
   
   if (!response.ok) {
     throw new Error(`Health check failed: ${response.status}`);
@@ -83,6 +85,7 @@ export async function predict({ mode, answers, file }: PredictRequest): Promise<
     const response = await fetch(`${baseUrl}/predict`, {
       method: 'POST',
       body: formData,
+      mode: 'cors',
     });
     
     if (!response.ok) {
@@ -90,7 +93,16 @@ export async function predict({ mode, answers, file }: PredictRequest): Promise<
       throw new Error(errorData.error || errorData.detail || `API error ${response.status}`);
     }
     
-    return response.json();
+    const result = await response.json();
+    
+    // Add reference image based on mode (since Azure backend doesn't include this)
+    if (mode === 'disease') {
+      result.ref_img = 'deadheart_01.jpg';
+    } else if (mode === 'pest') {
+      result.ref_img = 'esb_01.jpg';
+    }
+    
+    return result;
     
   } else if (answers) {
     // JSON request (answers-only)
@@ -100,6 +112,7 @@ export async function predict({ mode, answers, file }: PredictRequest): Promise<
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ mode, answers }),
+      mode: 'cors',
     });
     
     if (!response.ok) {
@@ -107,7 +120,16 @@ export async function predict({ mode, answers, file }: PredictRequest): Promise<
       throw new Error(errorData.error || errorData.detail || `API error ${response.status}`);
     }
     
-    return response.json();
+    const result = await response.json();
+    
+    // Add reference image based on mode (since Azure backend doesn't include this)
+    if (mode === 'disease') {
+      result.ref_img = 'deadheart_01.jpg';
+    } else if (mode === 'pest') {
+      result.ref_img = 'esb_01.jpg';
+    }
+    
+    return result;
     
   } else {
     throw new Error('Must provide either file or answers');

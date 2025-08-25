@@ -706,8 +706,8 @@ const MessageBubble: React.FC<{ message: Message; questions: Question[] }> = ({ 
                 </CardHeader>
                 <CardContent className="pt-0">
                   <img 
-                    src={`/ref/${mode === 'disease' ? 'deadheart' : 'esb'}/${result.ref_img}`} 
-                    alt={`Reference for ${mode === 'disease' ? 'Dead Heart Disease' : 'Early Shoot Borer'}`} 
+                    src={`/ref/${result.mode === 'disease' ? 'deadheart' : 'esb'}/${result.ref_img}`} 
+                    alt={`Reference for ${result.mode === 'disease' ? 'Dead Heart Disease' : 'Early Shoot Borer'}`} 
                     className="w-full max-h-24 sm:max-h-32 object-contain rounded bg-white"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = '/logo.svg';

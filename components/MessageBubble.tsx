@@ -133,7 +133,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ message, questions
                   fusion={response.fusion}
                 />
                 
-                {response.fusion.present && (
+                {response.ref_img && (
                   <RefImage 
                     mode={response.mode}
                     filename={response.ref_img}

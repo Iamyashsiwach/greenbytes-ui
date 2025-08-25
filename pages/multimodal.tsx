@@ -696,27 +696,29 @@ const MessageBubble: React.FC<{ message: Message; questions: Question[] }> = ({ 
             </Card>
 
             {/* Reference Image */}
-            <Card className="border-orange-200 bg-orange-50/50">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-xs sm:text-sm flex items-center gap-2">
-                  <span className="text-orange-600">🔍</span>
-                  Reference Image
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <img 
-                  src={result.reference_image_url} 
-                  alt="Reference" 
-                  className="w-full max-h-24 sm:max-h-32 object-contain rounded bg-white"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/logo.svg';
-                  }}
-                />
-                <p className="text-center text-xs sm:text-sm text-orange-800 mt-2">
-                  {result.mode === 'disease' ? 'Dead Heart Disease' : 'Early Shoot Borer (ESB)'}
-                </p>
-              </CardContent>
-            </Card>
+            {result.ref_img && (
+              <Card className="border-orange-200 bg-orange-50/50">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xs sm:text-sm flex items-center gap-2">
+                    <span className="text-orange-600">🔍</span>
+                    Reference Image
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <img 
+                    src={`/ref/${mode === 'disease' ? 'deadheart' : 'esb'}/${result.ref_img}`} 
+                    alt={`Reference for ${mode === 'disease' ? 'Dead Heart Disease' : 'Early Shoot Borer'}`} 
+                    className="w-full max-h-24 sm:max-h-32 object-contain rounded bg-white"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/logo.svg';
+                    }}
+                  />
+                  <p className="text-center text-xs sm:text-sm text-orange-800 mt-2">
+                    {result.mode === 'disease' ? 'Dead Heart Disease' : 'Early Shoot Borer (ESB)'}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </CardContent>
       </Card>

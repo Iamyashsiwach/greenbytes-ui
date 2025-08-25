@@ -61,6 +61,20 @@ export default async function handler(
         validateStatus: () => true, // Don't throw on HTTP error status
       });
 
+      // Add appropriate reference image URL based on mode and detection
+      if (response.status === 200 && response.data) {
+        const responseData = response.data;
+        
+        // Add reference image filename based on analysis mode
+        if (mode === 'disease') {
+          responseData.ref_img = 'deadheart_01.jpg';
+        } else if (mode === 'pest') {
+          responseData.ref_img = 'esb_01.jpg';
+        }
+        
+        return res.status(response.status).json(responseData);
+      }
+
       return res.status(response.status).json(response.data);
       
     } else {
@@ -114,6 +128,20 @@ export default async function handler(
         } catch (cleanupError) {
           console.warn('Failed to cleanup temp file:', cleanupError);
         }
+      }
+
+      // Add appropriate reference image URL based on mode and detection
+      if (response.status === 200 && response.data) {
+        const responseData = response.data;
+        
+        // Add reference image filename based on analysis mode
+        if (mode === 'disease') {
+          responseData.ref_img = 'deadheart_01.jpg';
+        } else if (mode === 'pest') {
+          responseData.ref_img = 'esb_01.jpg';
+        }
+        
+        return res.status(response.status).json(responseData);
       }
 
       return res.status(response.status).json(response.data);

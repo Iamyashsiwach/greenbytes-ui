@@ -41,7 +41,7 @@ export interface PredictResponse {
       no_count: number;
     };
   };
-  reference_image_url: string;
+  ref_img: string;
 }
 
 /**

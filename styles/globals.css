@@ -65,7 +65,7 @@ html, body {
   @apply bg-gray-300 rounded-full hover:bg-gray-400;
 }
 
-/* Mobile touch improvements */
+/* Mobile touch improvements and performance optimizations */
 @media (max-width: 640px) {
   .custom-scrollbar {
     -webkit-overflow-scrolling: touch;

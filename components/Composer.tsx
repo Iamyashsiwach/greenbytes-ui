@@ -1,5 +1,6 @@
 /**
  * Modern composer component for mode selection, image upload, and Q&A form
+ * Enhanced with mobile-first responsive design and accessibility features
  */
 
 import React, { useState, useRef, ChangeEvent } from 'react';

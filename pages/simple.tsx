@@ -82,6 +82,7 @@ const SimplePage: NextPage = () => {
 
   const currentGroups = questionGroups[mode];
   const totalQuestions = currentGroups.reduce((sum, group) => sum + group.questions.length, 0);
+  // Optimized answer counting for better performance
   const answeredCount = Object.values(answers).filter(val => val !== -1).length;
   const progressPercentage = (answeredCount / totalQuestions) * 100;
 

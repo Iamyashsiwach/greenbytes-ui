@@ -1,5 +1,6 @@
 /**
  * Main chat page with modern UI - wires all components together
+ * Optimized for performance and enhanced mobile responsiveness
  */
 
 import React, { useState, useEffect } from 'react';

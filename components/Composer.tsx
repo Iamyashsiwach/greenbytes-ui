@@ -7,7 +7,7 @@ import { Question, AnswerValue } from '../lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
 import { Label } from '@/components/ui/label';
 import { 
   Upload, 
@@ -17,7 +17,10 @@ import {
   HelpCircle,
   X,
   Check,
-  FileImage
+  FileImage,
+  CheckCircle2,
+  XCircle,
+  TrendingUp
 } from 'lucide-react';
 
 interface ComposerProps {
@@ -93,6 +96,30 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
 
   const currentQuestions = questions[mode];
   const answeredCount = Object.values(answers).filter(val => val !== -1).length;
+  const progressPercentage = currentQuestions.length > 0 ? (answeredCount / currentQuestions.length) * 100 : 0;
+
+  // Helper functions for visual feedback
+  const getAnswerIcon = (questionKey: string) => {
+    const value = answers[questionKey];
+    if (value === undefined || value === -1) {
+      return <HelpCircle className="w-3 h-3 text-gray-400" />;
+    } else if (value === 1) {
+      return <CheckCircle2 className="w-3 h-3 text-green-500" />;
+    } else {
+      return <XCircle className="w-3 h-3 text-red-500" />;
+    }
+  };
+
+  const getQuestionCardClass = (questionKey: string) => {
+    const value = answers[questionKey];
+    if (value === undefined || value === -1) {
+      return "border-gray-200 bg-white hover:border-primary/50";
+    } else if (value === 1) {
+      return "border-green-200 bg-green-50/50 shadow-sm";
+    } else {
+      return "border-red-200 bg-red-50/50 shadow-sm";
+    }
+  };
 
   return (
     <div className="bg-background border-t border-border shadow-lg">
@@ -110,11 +137,11 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <Label 
-                  className={`flex items-center gap-3 p-4 sm:p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
                     mode === 'disease' 
-                      ? 'border-primary bg-primary/5' 
-                      : 'border-border hover:border-primary/50'
-                  }`}
+                      ? 'border-primary bg-primary/10 shadow-sm' 
+                      : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                  } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                   onClick={() => !disabled && setMode('disease')}
                 >
                   <input
@@ -134,11 +161,11 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                 </Label>
                 
                 <Label 
-                  className={`flex items-center gap-3 p-4 sm:p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                  className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:shadow-md ${
                     mode === 'pest' 
-                      ? 'border-primary bg-primary/5' 
-                      : 'border-border hover:border-primary/50'
-                  }`}
+                      ? 'border-primary bg-primary/10 shadow-sm' 
+                      : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                  } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
                   onClick={() => !disabled && setMode('pest')}
                 >
                   <input
@@ -235,62 +262,141 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
 
           {/* Questions */}
           <Card className="lg:col-span-2">
-            <CardHeader className="pb-3 sm:pb-4">
+            <CardHeader className="pb-4 sm:pb-6 border-b border-gray-100">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                  <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-                  Questionnaire
-                </CardTitle>
-                <Badge variant="secondary" className="text-xs">
-                  {answeredCount}/{currentQuestions.length} answered
-                </Badge>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <HelpCircle className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg sm:text-xl font-bold text-gray-900">
+                      Diagnostic Questionnaire
+                    </CardTitle>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Answer questions to improve analysis accuracy
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 px-3 py-2 rounded-full text-sm font-semibold shadow-sm">
+                    {answeredCount}/{currentQuestions.length}
+                    <span className="text-xs ml-1 opacity-75">answered</span>
+                  </div>
+                  {progressPercentage >= 60 && (
+                    <Badge variant="default" className="text-xs bg-green-600 shadow-sm">
+                      Ready
+                    </Badge>
+                  )}
+                </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 gap-3 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar pr-2">
+            <CardContent className="pt-6">
+              <div className="grid grid-cols-1 gap-4 max-h-80 sm:max-h-96 overflow-y-auto custom-scrollbar pr-2">
                 {currentQuestions.map((question, index) => (
-                  <Card key={question.key} className="question-card">
-                    <CardContent className="p-3 sm:p-4">
-                      <Label className="text-sm font-medium leading-tight mb-3 block">
-                        <span className="text-primary font-bold">Q{index + 1}.</span> {question.text}
-                      </Label>
+                  <Card 
+                    key={question.key} 
+                    className={`transition-all duration-200 shadow-sm hover:shadow-md ${getQuestionCardClass(question.key)}`}
+                  >
+                    <CardContent className="p-4 sm:p-5">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1 pr-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="inline-flex items-center justify-center w-6 h-6 bg-primary text-primary-foreground text-xs font-bold rounded-full">
+                              {index + 1}
+                            </span>
+                          </div>
+                          <Label className="text-sm font-medium leading-relaxed text-gray-800">
+                            {question.text}
+                          </Label>
+                        </div>
+                      </div>
                       
-                      <RadioGroup
-                        value={answers[question.key]?.toString() || "-1"}
-                        onValueChange={(value) => handleAnswerChange(question.key, parseInt(value) as AnswerValue)}
-                        disabled={disabled}
-                        className="flex flex-wrap gap-3 sm:gap-4"
-                      >
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="-1" id={`${question.key}-unknown`} />
-                          <Label htmlFor={`${question.key}-unknown`} className="text-xs cursor-pointer">
-                            Unknown
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="0" id={`${question.key}-no`} />
-                          <Label htmlFor={`${question.key}-no`} className="text-xs cursor-pointer">
-                            No
-                          </Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="1" id={`${question.key}-yes`} />
-                          <Label htmlFor={`${question.key}-yes`} className="text-xs cursor-pointer">
-                            Yes
-                          </Label>
-                        </div>
-                      </RadioGroup>
+                      <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                        <button
+                          type="button"
+                          onClick={() => handleAnswerChange(question.key, -1)}
+                          disabled={disabled}
+                          className={`flex items-center justify-center gap-2 p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 text-sm font-medium min-h-[44px] ${
+                            answers[question.key] === -1 || answers[question.key] === undefined
+                              ? 'border-gray-400 bg-gray-50 text-gray-700 shadow-sm'
+                              : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50'
+                          } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        >
+                          <span className="text-lg sm:hidden">❓</span>
+                          <div className="hidden sm:flex items-center gap-2">
+                            <HelpCircle className="w-4 h-4" />
+                            <span>Unknown</span>
+                          </div>
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={() => handleAnswerChange(question.key, 0)}
+                          disabled={disabled}
+                          className={`flex items-center justify-center gap-2 p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 text-sm font-medium min-h-[44px] ${
+                            answers[question.key] === 0
+                              ? 'border-red-400 bg-red-50 text-red-700 shadow-sm'
+                              : 'border-gray-200 bg-white text-gray-500 hover:border-red-300 hover:bg-red-50'
+                          } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        >
+                          <span className="text-lg sm:hidden">❌</span>
+                          <div className="hidden sm:flex items-center gap-2">
+                            <XCircle className="w-4 h-4" />
+                            <span>No</span>
+                          </div>
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={() => handleAnswerChange(question.key, 1)}
+                          disabled={disabled}
+                          className={`flex items-center justify-center gap-2 p-3 sm:p-4 rounded-lg border-2 transition-all duration-200 text-sm font-medium min-h-[44px] ${
+                            answers[question.key] === 1
+                              ? 'border-green-400 bg-green-50 text-green-700 shadow-sm'
+                              : 'border-gray-200 bg-white text-gray-500 hover:border-green-300 hover:bg-green-50'
+                          } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        >
+                          <span className="text-lg sm:hidden">✅</span>
+                          <div className="hidden sm:flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>Yes</span>
+                          </div>
+                        </button>
+                      </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
               
-              <div className="mt-4 sm:mt-6 pt-4 border-t">
+              <div className="mt-4 sm:mt-6 pt-4 border-t space-y-4">
+                {/* Progress Indicator */}
+                {answeredCount > 0 && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="w-3 h-3 text-green-600" />
+                        <span>Progress</span>
+                      </div>
+                      <span className="font-medium">{Math.round(progressPercentage)}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div 
+                        className="bg-gradient-to-r from-green-500 to-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                        style={{ width: `${progressPercentage}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <Button
                   onClick={handleSubmit}
                   disabled={disabled || !imageFile}
                   size="lg"
-                  className="w-full h-12 text-base sm:text-sm"
+                  className={`w-full h-12 text-base sm:text-sm transition-all duration-200 ${
+                    !disabled && imageFile && answeredCount >= currentQuestions.length * 0.4
+                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
+                      : ''
+                  }`}
                 >
                   {disabled ? (
                     <>
@@ -304,6 +410,34 @@ export const Composer: React.FC<ComposerProps> = ({ questions, onSubmit, disable
                     </>
                   )}
                 </Button>
+
+                {/* Status indicators */}
+                {!disabled && (
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${imageFile ? 'bg-green-500' : 'bg-red-500'}`} />
+                      <span className={imageFile ? 'text-green-700' : 'text-red-600'}>
+                        Image {imageFile ? 'Uploaded' : 'Required'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${answeredCount >= currentQuestions.length * 0.4 ? 'bg-green-500' : 'bg-gray-300'}`} />
+                      <span className={answeredCount >= currentQuestions.length * 0.4 ? 'text-green-700' : 'text-gray-500'}>
+                        Questions {answeredCount >= currentQuestions.length * 0.4 ? 'Sufficient' : 'More needed'}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Ready indicator */}
+                {!disabled && imageFile && answeredCount >= currentQuestions.length * 0.6 && (
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm text-green-800 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-600" />
+                      Ready for comprehensive analysis! You've provided excellent diagnostic information.
+                    </p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

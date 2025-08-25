@@ -27,7 +27,10 @@ import {
   CheckCircle,
   Activity,
   Wifi,
-  WifiOff
+  WifiOff,
+  CheckCircle2,
+  XCircle,
+  TrendingUp
 } from 'lucide-react';
 import diseaseQuestions from '../public/data/disease_questions.json';
 import esbQuestions from '../public/data/esb_questions.json';
@@ -186,6 +189,30 @@ const MultimodalPage: NextPage = () => {
 
   const currentQuestions = questions[mode];
   const answeredCount = Object.values(answers).filter(val => val !== -1).length;
+  const progressPercentage = currentQuestions.length > 0 ? (answeredCount / currentQuestions.length) * 100 : 0;
+
+  // Helper functions for visual feedback
+  const getAnswerIcon = (questionKey: string) => {
+    const value = answers[questionKey];
+    if (value === undefined || value === -1) {
+      return <HelpCircle className="w-4 h-4 text-gray-400" />;
+    } else if (value === 1) {
+      return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+    } else {
+      return <XCircle className="w-4 h-4 text-red-500" />;
+    }
+  };
+
+  const getQuestionCardClass = (questionKey: string) => {
+    const value = answers[questionKey];
+    if (value === undefined || value === -1) {
+      return "border-gray-200 bg-white hover:border-green-300";
+    } else if (value === 1) {
+      return "border-green-200 bg-green-50/50 shadow-sm";
+    } else {
+      return "border-red-200 bg-red-50/50 shadow-sm";
+    }
+  };
 
   return (
     <>
@@ -266,6 +293,30 @@ const MultimodalPage: NextPage = () => {
                         <p className="text-xs text-muted-foreground">Fusion Logic</p>
                       </div>
                     </div>
+                    
+                    {/* Progress Indicator when questions are answered */}
+                    {answeredCount > 0 && (
+                      <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <TrendingUp className="w-4 h-4 text-green-600" />
+                            <span className="text-sm font-medium text-green-800">Analysis Progress</span>
+                          </div>
+                          <span className="text-sm text-green-700">{answeredCount}/{currentQuestions.length}</span>
+                        </div>
+                        <div className="w-full bg-green-200 rounded-full h-2">
+                          <div 
+                            className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all duration-500 ease-out"
+                            style={{ width: `${progressPercentage}%` }}
+                          />
+                        </div>
+                        <p className="text-xs text-green-600 mt-2">
+                          {progressPercentage >= 80 ? "Ready for comprehensive analysis!" : 
+                           progressPercentage >= 50 ? "Great progress - keep going!" : 
+                           "Answer more questions for better accuracy"}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </Card>
               )}
@@ -296,8 +347,10 @@ const MultimodalPage: NextPage = () => {
                         {(['disease', 'pest'] as const).map((m) => (
                           <Label 
                             key={m}
-                            className={`flex items-center gap-2 p-3 sm:p-2 rounded border cursor-pointer ${
-                              mode === m ? 'border-primary bg-primary/5' : 'border-border'
+                            className={`flex items-center gap-3 p-4 sm:p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 transform hover:scale-[1.02] ${
+                              mode === m 
+                                ? 'border-primary bg-gradient-to-r from-green-50 to-emerald-50 shadow-md' 
+                                : 'border-border hover:border-primary/50 hover:bg-primary/5'
                             }`}
                             onClick={() => setMode(m)}
                           >
@@ -307,16 +360,24 @@ const MultimodalPage: NextPage = () => {
                               onChange={() => setMode(m)}
                               className="sr-only"
                             />
-                            <span className="text-xl sm:text-lg">{m === 'disease' ? '🦠' : '🐛'}</span>
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                              m === 'disease' ? 'bg-red-100' : 'bg-orange-100'
+                            }`}>
+                              <span className="text-2xl">{m === 'disease' ? '🦠' : '🐛'}</span>
+                            </div>
                             <div className="flex-1">
                               <p className="text-sm font-medium">
-                                {m === 'disease' ? 'Disease' : 'Pest'}
+                                {m === 'disease' ? 'Disease Detection' : 'Pest Detection'}
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {m === 'disease' ? 'Dead Heart' : 'Early Shoot Borer'}
+                                {m === 'disease' ? 'Dead Heart Analysis' : 'Early Shoot Borer'}
                               </p>
                             </div>
-                            {mode === m && <Check className="w-4 h-4 text-primary" />}
+                            {mode === m && (
+                              <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                <Check className="w-4 h-4 text-white" />
+                              </div>
+                            )}
                           </Label>
                         ))}
                       </div>
@@ -390,10 +451,18 @@ const MultimodalPage: NextPage = () => {
                   <CardContent>
                     <div className="grid grid-cols-1 gap-3 max-h-64 overflow-y-auto">
                       {currentQuestions.map((question, index) => (
-                        <Card key={question.key} className="p-3">
-                          <Label className="text-xs font-medium mb-2 block">
-                            Q{index + 1}. {question.text}
-                          </Label>
+                        <Card 
+                          key={question.key} 
+                          className={`p-3 transition-all duration-200 ${getQuestionCardClass(question.key)}`}
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <Label className="text-xs font-medium leading-tight flex-1 pr-2">
+                              <span className="text-primary font-bold">Q{index + 1}.</span> {question.text}
+                            </Label>
+                            <div className="flex-shrink-0">
+                              {getAnswerIcon(question.key)}
+                            </div>
+                          </div>
                           <RadioGroup
                             value={answers[question.key]?.toString() || "-1"}
                             onValueChange={(value) => handleAnswerChange(question.key, parseInt(value) as AnswerValue)}
@@ -401,15 +470,24 @@ const MultimodalPage: NextPage = () => {
                           >
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="-1" id={`${question.key}-unknown`} />
-                              <Label htmlFor={`${question.key}-unknown`} className="text-xs cursor-pointer">Unknown</Label>
+                              <Label htmlFor={`${question.key}-unknown`} className="text-xs cursor-pointer flex items-center gap-1">
+                                <HelpCircle className="w-3 h-3 text-gray-400" />
+                                Unknown
+                              </Label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="0" id={`${question.key}-no`} />
-                              <Label htmlFor={`${question.key}-no`} className="text-xs cursor-pointer">No</Label>
+                              <Label htmlFor={`${question.key}-no`} className="text-xs cursor-pointer flex items-center gap-1">
+                                <XCircle className="w-3 h-3 text-red-500" />
+                                No
+                              </Label>
                             </div>
                             <div className="flex items-center space-x-2">
                               <RadioGroupItem value="1" id={`${question.key}-yes`} />
-                              <Label htmlFor={`${question.key}-yes`} className="text-xs cursor-pointer">Yes</Label>
+                              <Label htmlFor={`${question.key}-yes`} className="text-xs cursor-pointer flex items-center gap-1">
+                                <CheckCircle2 className="w-3 h-3 text-green-500" />
+                                Yes
+                              </Label>
                             </div>
                           </RadioGroup>
                         </Card>
@@ -417,14 +495,53 @@ const MultimodalPage: NextPage = () => {
                     </div>
                     
                     <div className="mt-4 pt-4 border-t">
-                      <Button
-                        onClick={handleSubmit}
-                        disabled={isLoading || (includeImage && !imageFile)}
-                        className="w-full h-12 text-base sm:text-sm"
-                      >
-                        <Zap className="w-4 h-4 mr-2" />
-                        {isLoading ? 'Processing...' : 'Run Analysis'}
-                      </Button>
+                      <div className="space-y-3">
+                        <Button
+                          onClick={handleSubmit}
+                          disabled={isLoading || (includeImage && !imageFile)}
+                          className={`w-full h-12 text-base sm:text-sm transition-all duration-200 ${
+                            !isLoading && (!includeImage || imageFile) && answeredCount >= currentQuestions.length * 0.4
+                              ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02]'
+                              : ''
+                          }`}
+                        >
+                          <Zap className="w-4 h-4 mr-2" />
+                          {isLoading ? 'Processing...' : 'Run Analysis'}
+                        </Button>
+                        
+                        {/* Progress and status indicators */}
+                        {!isLoading && (
+                          <div className="space-y-2">
+                            {/* Questionnaire progress */}
+                            <div className="flex items-center justify-between text-xs text-gray-600">
+                              <span>Questionnaire Progress</span>
+                              <span className="font-medium">{Math.round(progressPercentage)}%</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-1">
+                              <div 
+                                className="bg-gradient-to-r from-green-500 to-emerald-500 h-1 rounded-full transition-all duration-500"
+                                style={{ width: `${progressPercentage}%` }}
+                              />
+                            </div>
+                            
+                            {/* Status indicators */}
+                            <div className="flex items-center justify-between text-xs">
+                              <div className="flex items-center gap-2">
+                                <div className={`w-2 h-2 rounded-full ${includeImage && imageFile ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                <span className={includeImage && imageFile ? 'text-green-700' : 'text-gray-500'}>
+                                  Image {includeImage ? (imageFile ? 'Ready' : 'Required') : 'Optional'}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <div className={`w-2 h-2 rounded-full ${answeredCount >= currentQuestions.length * 0.4 ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                <span className={answeredCount >= currentQuestions.length * 0.4 ? 'text-green-700' : 'text-gray-500'}>
+                                  Questions {answeredCount >= currentQuestions.length * 0.4 ? 'Sufficient' : 'Needed'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

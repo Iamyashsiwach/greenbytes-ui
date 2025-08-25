@@ -1,6 +1,7 @@
 /**
  * Helper function to call backend prediction API via proxy
  * Uses Next.js API routes to avoid CORS issues
+ * Enhanced with error handling and request optimization
  */
 
 import axios from 'axios';

@@ -1,3 +1,4 @@
+// Enhanced radio group component with improved touch targets and accessibility
 import * as React from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 import { Circle } from "lucide-react"

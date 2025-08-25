@@ -1,7 +1,8 @@
 [
   {
     "key": "Q1",
-    "text": "Is the larva body dirty white?"
+    "text": "Is the larva body dirty white?",
+    "category": "larva_identification"
   },
   {
     "key": "Q2", 

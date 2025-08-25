@@ -1,7 +1,8 @@
 [
   {
     "key": "Q1",
-    "text": "Is the stem yellow or brown in color?"
+    "text": "Is the stem yellow or brown in color?",
+    "category": "visual_symptoms"
   },
   {
     "key": "Q2",

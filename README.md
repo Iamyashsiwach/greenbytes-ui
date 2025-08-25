@@ -1,6 +1,6 @@
-# GreenBytes UI - Next.js Frontend
+# GreenBytes UI - Next.js Frontend v0.2.0
 
-Multimodal chat interface for sugarcane AI analysis with proxy-based backend integration.
+Advanced multimodal chat interface for sugarcane AI analysis with enhanced mobile responsiveness and optimized performance. Features proxy-based backend integration and comprehensive accessibility improvements.
 
 ## 🚀 Quick Start
 

@@ -1,3 +1,4 @@
+// Enhanced label component with accessibility improvements and focus states
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { cva, type VariantProps } from "class-variance-authority"

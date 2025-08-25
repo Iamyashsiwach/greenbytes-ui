@@ -10,7 +10,7 @@ import FormData from 'form-data';
 import fs from 'fs';
 import axios from 'axios';
 
-// Disable default body parser to handle multipart data
+// Disable default body parser to handle both JSON and multipart data manually
 export const config = {
   api: {
     bodyParser: false,
@@ -25,55 +25,99 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const backendUrl = process.env.BACKEND_ORIGIN || 'http://localhost:8000';
+  const backendUrl = process.env.BACKEND_ORIGIN || 'http://20.193.136.83:8000';
 
   try {
-    // Parse the multipart form data
-    const form = formidable({
-      maxFileSize: 8 * 1024 * 1024, // 8MB
-      keepExtensions: true,
-    });
-
-    const [fields, files] = await form.parse(req);
-
-    // Extract form fields
-    const mode = Array.isArray(fields.mode) ? fields.mode[0] : fields.mode;
-    const answers = Array.isArray(fields.answers) ? fields.answers[0] : fields.answers;
-    const imageFile = Array.isArray(files.image) ? files.image[0] : files.image;
-
-    if (!mode || !answers || !imageFile) {
-      return res.status(400).json({ 
-        error: 'Missing required fields: mode, answers, or image' 
+    // Check if this is a JSON request (answers-only) or multipart (with image)
+    const contentType = req.headers['content-type'] || '';
+    
+    if (contentType.includes('application/json')) {
+      // Handle answers-only mode (JSON request)
+      // Parse JSON body manually since bodyParser is disabled
+      const bodyBuffer = await new Promise<Buffer>((resolve) => {
+        const chunks: Buffer[] = [];
+        req.on('data', (chunk) => chunks.push(chunk));
+        req.on('end', () => resolve(Buffer.concat(chunks)));
       });
+      
+      const body = JSON.parse(bodyBuffer.toString());
+      const { mode, answers } = body;
+      
+      if (!mode || !answers) {
+        return res.status(400).json({ 
+          error: 'Missing required fields: mode and answers are required for answers-only mode' 
+        });
+      }
+
+      // Forward JSON request to backend
+      const response = await axios.post(`${backendUrl}/predict`, {
+        mode,
+        answers
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        timeout: 30000,
+        validateStatus: () => true, // Don't throw on HTTP error status
+      });
+
+      return res.status(response.status).json(response.data);
+      
+    } else {
+      // Handle multipart request (with image)
+      const form = formidable({
+        maxFileSize: 8 * 1024 * 1024, // 8MB
+        keepExtensions: true,
+      });
+
+      const [fields, files] = await form.parse(req);
+
+      // Extract form fields
+      const mode = Array.isArray(fields.mode) ? fields.mode[0] : fields.mode;
+      const answers = Array.isArray(fields.answers) ? fields.answers[0] : fields.answers;
+      const imageFile = Array.isArray(files.file) ? files.file[0] : files.file;
+
+      if (!mode) {
+        return res.status(400).json({ 
+          error: 'Missing required field: mode' 
+        });
+      }
+
+      // Create form data for backend request
+      const formData = new FormData();
+      formData.append('mode', mode);
+      
+      if (answers) {
+        formData.append('answers', answers);
+      }
+      
+      if (imageFile) {
+        formData.append('file', fs.createReadStream(imageFile.filepath), {
+          filename: imageFile.originalFilename || 'upload.jpg',
+          contentType: imageFile.mimetype || 'image/jpeg',
+        });
+      }
+
+      // Forward request to backend using axios
+      const response = await axios.post(`${backendUrl}/predict`, formData, {
+        headers: {
+          ...formData.getHeaders(),
+        },
+        timeout: 30000,
+        validateStatus: () => true, // Don't throw on HTTP error status
+      });
+
+      // Clean up temporary file
+      if (imageFile) {
+        try {
+          fs.unlinkSync(imageFile.filepath);
+        } catch (cleanupError) {
+          console.warn('Failed to cleanup temp file:', cleanupError);
+        }
+      }
+
+      return res.status(response.status).json(response.data);
     }
-
-    // Create form data for backend request
-    const formData = new FormData();
-    formData.append('mode', mode);
-    formData.append('answers', answers);
-    formData.append('image', fs.createReadStream(imageFile.filepath), {
-      filename: imageFile.originalFilename || 'upload.jpg',
-      contentType: imageFile.mimetype || 'image/jpeg',
-    });
-
-    // Forward request to backend using axios (better FormData support)
-    const response = await axios.post(`${backendUrl}/predict`, formData, {
-      headers: {
-        ...formData.getHeaders(),
-      },
-      timeout: 30000,
-      validateStatus: () => true, // Don't throw on HTTP error status
-    });
-
-    // Clean up temporary file
-    try {
-      fs.unlinkSync(imageFile.filepath);
-    } catch (cleanupError) {
-      console.warn('Failed to cleanup temp file:', cleanupError);
-    }
-
-    // Return response with proper status code
-    return res.status(response.status).json(response.data);
   } catch (error) {
     console.error('Prediction proxy failed:', error);
     return res.status(500).json({

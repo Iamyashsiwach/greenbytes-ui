@@ -3,6 +3,7 @@
  * Forwards multipart form data to backend and returns response
  */
 
+// AI prediction API endpoint with optimized file handling
 import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import FormData from 'form-data';

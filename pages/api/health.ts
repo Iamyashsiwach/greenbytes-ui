@@ -3,6 +3,7 @@
  * Avoids CORS issues by proxying through Next.js API routes
  */
 
+// Health check endpoint with enhanced monitoring capabilities
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

@@ -1,4 +1,5 @@
 {
+  // Enhanced TypeScript configuration for optimal development experience
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

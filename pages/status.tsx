@@ -2,6 +2,7 @@
  * Status page to test backend connection via proxy
  */
 
+// System status monitoring with real-time health checks
 import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';

@@ -1,5 +1,6 @@
 /**
  * Modern scrollable chat window component
+ * Enhanced with auto-scroll behavior and performance optimizations
  */
 
 import React, { useRef, useEffect } from 'react';

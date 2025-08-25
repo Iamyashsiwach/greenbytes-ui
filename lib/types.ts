@@ -1,5 +1,6 @@
 /**
  * Shared TypeScript types for API and UI
+ * Comprehensive type definitions with enhanced type safety
  */
 
 // Question structure

@@ -1,3 +1,4 @@
+// Enhanced card component with improved shadow and interaction states
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

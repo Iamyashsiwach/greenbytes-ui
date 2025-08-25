@@ -1,4 +1,6 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} 
+ * Optimized Tailwind configuration with custom design tokens
+ */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",

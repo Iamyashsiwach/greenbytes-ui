@@ -1,6 +1,7 @@
 /**
  * Multimodal Analysis Page - MVP Interface
  * Supports answers-only, image-only, and combined analysis modes
+ * Enhanced with progressive web app features and accessibility
  */
 
 import React, { useState, useEffect } from 'react';

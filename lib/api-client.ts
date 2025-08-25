@@ -1,6 +1,7 @@
 /**
  * Simple API client for multimodal analysis
  * Uses Next.js proxy routes to avoid CORS issues
+ * Enhanced with request optimization and error recovery
  */
 
 export interface PredictRequest {

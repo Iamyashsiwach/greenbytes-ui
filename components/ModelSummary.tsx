@@ -2,6 +2,7 @@
  * Component to display model outputs and fusion results with modern UI
  */
 
+// AI model results component with enhanced data visualization
 import React from 'react';
 import { YOLOResult, TabNetResult, FusionResult } from '../lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

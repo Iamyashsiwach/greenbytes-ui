@@ -2,6 +2,7 @@
  * Component to display reference image when target is detected
  */
 
+// Reference image display component with lazy loading optimization
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';

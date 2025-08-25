@@ -2,6 +2,7 @@
  * Component to display the 10 Q&A in a modern card format
  */
 
+// Enhanced answer analytics component with performance optimizations
 import React from 'react';
 import { Question, AnswerValue } from '../lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

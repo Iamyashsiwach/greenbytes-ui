@@ -2,6 +2,7 @@
  * Component for chat message bubbles (user and assistant variants)
  */
 
+// Optimized message rendering with enhanced accessibility features
 import React from 'react';
 import { Message, PredictResponse, Question } from '../lib/types';
 import { AnswersTable } from './AnswersTable';

@@ -6,12 +6,14 @@
 import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { Message, Question, AnswerValue, UserMessage, AssistantMessage } from '../lib/types';
 import { fetchPredict } from '../lib/fetchPredict';
 import { ChatWindow } from '../components/ChatWindow';
 import { Composer } from '../components/Composer';
 import { Badge } from '@/components/ui/badge';
-import { Leaf, Activity } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Leaf, Activity, Zap } from 'lucide-react';
 import diseaseQuestions from '../public/data/disease_questions.json';
 import esbQuestions from '../public/data/esb_questions.json';
 
@@ -139,6 +141,18 @@ const Home: NextPage = () => {
                 <Badge variant={isLoading ? "destructive" : "default"} className="text-xs">
                   {isLoading ? 'Processing' : 'Ready'}
                 </Badge>
+                
+                {/* Beta Button */}
+                <Link href="/multimodal">
+                  <Button 
+                    size="sm" 
+                    className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 shadow-md hover:shadow-lg transition-all duration-200 text-xs font-bold px-3 py-1 h-7 sm:h-8 sm:px-4"
+                  >
+                    <Zap className="w-3 h-3 mr-1" />
+                    <span className="hidden sm:inline">BETA</span>
+                    <span className="sm:hidden">β</span>
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -146,6 +160,37 @@ const Home: NextPage = () => {
 
         {/* Main Content */}
         <main className="flex-1 flex flex-col">
+          {/* Beta Banner - Show only when no messages */}
+          {messages.length === 0 && (
+            <div className="px-4 sm:px-6 py-4">
+              <div className="bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 rounded-xl p-4 sm:p-6 shadow-sm">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-center sm:text-left">
+                    <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                      <Zap className="w-5 h-5 text-orange-600" />
+                      <h3 className="text-lg font-bold text-orange-800">Try Our Advanced Beta Interface!</h3>
+                    </div>
+                    <p className="text-sm text-orange-700 mb-1">
+                      Experience our latest multimodal analysis with enhanced UI and better visualization
+                    </p>
+                    <p className="text-xs text-orange-600">
+                      ✨ Interactive questionnaires • 📊 Real-time progress tracking • 🖼️ Reference images
+                    </p>
+                  </div>
+                  <Link href="/multimodal">
+                    <Button 
+                      size="lg"
+                      className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold shadow-lg hover:shadow-xl transition-all duration-200 px-6 py-3"
+                    >
+                      <Zap className="w-4 h-4 mr-2" />
+                      Launch Beta
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+          
           <ChatWindow messages={messages} questions={questions} />
           <Composer 
             questions={questions} 

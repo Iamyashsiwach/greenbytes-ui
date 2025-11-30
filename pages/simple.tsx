@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { CheckCircle2, HelpCircle, XCircle, TrendingUp, Leaf, Eye, Brain, Zap } from 'lucide-react';
+import { CheckCircle2, HelpCircle, XCircle, TrendingUp, Leaf, Eye, Brain, Zap, ArrowRight } from 'lucide-react';
 
 const SimplePage: NextPage = () => {
   const [mode, setMode] = useState<"disease" | "pest">("disease");
@@ -118,7 +118,8 @@ const SimplePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>GreenBytes AI - Simple Test</title>
+        <title>Quick Test | GreenBytes AI</title>
+        <meta name="description" content="Quick diagnostic test for sugarcane disease and pest detection" />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
@@ -126,12 +127,15 @@ const SimplePage: NextPage = () => {
         <header className="bg-white shadow-sm border-b border-green-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-lg sm:text-xl">🌱</span>
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-emerald-600 rounded-lg flex items-center justify-center">
+                <Leaf className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-green-800">GreenBytes AI</h1>
-                <p className="text-sm sm:text-base text-green-600">Sugarcane Health Analysis</p>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">GreenBytes</h1>
+                  <span className="text-[10px] font-medium text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">BETA</span>
+                </div>
+                <p className="text-sm text-gray-600">Sugarcane Diagnosis</p>
               </div>
             </div>
           </div>
@@ -146,10 +150,10 @@ const SimplePage: NextPage = () => {
                 <span className="text-green-600 text-xl sm:text-2xl">🧠</span>
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
-                Welcome to GreenBytes AI
+                Crop Diagnosis
               </h2>
               <p className="text-sm sm:text-lg text-gray-600 mb-4 sm:mb-6">
-                Advanced multimodal analysis for sugarcane health detection
+                AI-powered disease and pest detection for sugarcane
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="flex items-center gap-3 p-3 sm:p-4 bg-blue-50 rounded-lg transition-all duration-200 hover:bg-blue-100">
@@ -302,7 +306,7 @@ const SimplePage: NextPage = () => {
                     </div>
                   ) : (
                     <div className="space-y-2">
-                      <span className="text-3xl sm:text-4xl mb-2 block">📷</span>
+                  <span className="text-3xl sm:text-4xl mb-2 block">📷</span>
                   <p className="text-sm text-gray-600">Click to upload sugarcane image</p>
                   <p className="text-xs text-gray-400">JPEG or PNG, max 8MB</p>
                     </div>

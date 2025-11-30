@@ -218,8 +218,8 @@ const MultimodalPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>GreenBytes AI - Multimodal Analysis</title>
-        <meta name="description" content="Multimodal sugarcane health analysis" />
+        <title>Diagnosis | GreenBytes AI</title>
+        <meta name="description" content="Diagnose sugarcane diseases and pests using AI-powered image analysis and diagnostic questionnaires." />
         <link rel="icon" href="/logo.svg" />
       </Head>
 
@@ -228,18 +228,17 @@ const MultimodalPage: NextPage = () => {
         <header className="bg-white/80 backdrop-blur-sm border-b border-green-200 sticky top-0 z-50">
           <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 sm:gap-4">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary rounded-xl flex items-center justify-center">
-                  <Leaf className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
+                  <Leaf className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-green-800">GreenBytes AI</h1>
-                  <p className="text-xs text-green-600 hidden sm:block">Multimodal Analysis</p>
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-lg font-semibold text-gray-900">GreenBytes</h1>
+                    <span className="text-[10px] font-medium text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">BETA</span>
+                  </div>
+                  <p className="text-xs text-gray-500 hidden sm:block">Crop Diagnosis</p>
                 </div>
-                <Badge variant="secondary" className="hidden md:flex items-center gap-1 text-xs">
-                  <Activity className="w-3 h-3" />
-                  MVP
-                </Badge>
               </div>
               
               <div className="flex items-center gap-1 sm:gap-2">
@@ -269,8 +268,8 @@ const MultimodalPage: NextPage = () => {
                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto">
                       <Leaf className="w-6 h-6 sm:w-8 sm:h-8 text-primary-foreground" />
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-green-800">GreenBytes AI</h2>
-                    <p className="text-sm sm:text-base text-green-700">Multimodal sugarcane health analysis</p>
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Crop Diagnosis</h2>
+                    <p className="text-sm text-gray-600">Sugarcane disease and pest detection</p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4 sm:mt-6">
                       <div className="p-3 sm:p-4 bg-white/60 rounded-lg">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
